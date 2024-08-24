@@ -20,51 +20,52 @@ Card button4(&dashboard, BUTTON_CARD, "Switch 4");
 
 
 
-void taskCode_Dallastemp(void *pvParameters)
+void taskCode_Dash(void *pvParameters)
 {
   /* Start AsyncWebServer */
      server.begin();
     /* Button card callback */
     button1.attachCallback([&](int value){
-        Serial.println("Button Callback Triggered: "+String((value == 1)?"true":"false"));
+        Serial.println("Button1 Triggered: "+String((value == 1)?"true":"false"));
         /* Button card updater - you need to update the button with latest value upon firing of callback */
-        button1.update(value);
+        button1.update(!value);
         /* Send update to dashboard */
         dashboard.sendUpdates();
-        digitalWrite(SWITCH1, value);
+        digitalWrite(SWITCH1, !value);
     });
     button2.attachCallback([&](int value){
-        Serial.println("Button Callback Triggered: "+String((value == 1)?"true":"false"));
+        Serial.println("Button2 Triggered: "+String((value == 1)?"true":"false"));
         /* Button card updater - you need to update the button with latest value upon firing of callback */
-        button2.update(value);
+        button2.update(!value);
         /* Send update to dashboard */
         dashboard.sendUpdates();
-        digitalWrite(SWITCH2, value);
+        digitalWrite(SWITCH2, !value);
     });
       button3.attachCallback([&](int value){
-        Serial.println("Button Callback Triggered: "+String((value == 1)?"true":"false"));
+        Serial.println("Button3 Triggered: "+String((value == 1)?"true":"false"));
         /* Button card updater - you need to update the button with latest value upon firing of callback */
-        button3.update(value);
+        button3.update(!value);
         /* Send update to dashboard */
         dashboard.sendUpdates();
-        digitalWrite(SWITCH3, value);
+        digitalWrite(SWITCH3, !value);
     });
     button4.attachCallback([&](int value){
-        Serial.println("Button Callback Triggered: "+String((value == 1)?"true":"false"));
+        Serial.println("Button4 Triggered: "+String((value == 1)?"true":"false"));
         /* Button card updater - you need to update the button with latest value upon firing of callback */
-        button4.update(value);
+        button4.update(!value);
         /* Send update to dashboard */
         dashboard.sendUpdates();
-        digitalWrite(SWITCH4, value);
+        digitalWrite(SWITCH4, !value);
     });
 
     while (true)
     {
  
-      button1.update(bool(digitalRead(SWITCH1)));
-      button2.update(bool(digitalRead(SWITCH2)));
-      button3.update(bool(digitalRead(SWITCH3)));
-      button4.update(bool(digitalRead(SWITCH4)));
+      button1.update(bool(!(digitalRead(SWITCH1))));
+      button2.update(bool(!(digitalRead(SWITCH2))));
+      button3.update(bool(!(digitalRead(SWITCH3))));
+      button4.update(bool(!(digitalRead(SWITCH4))));
+      digitalWrite(LED_RED, !digitalRead(LED_RED));
 
       /* Send Updates to our Dashboard (realtime) */
       dashboard.sendUpdates();

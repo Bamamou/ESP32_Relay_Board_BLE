@@ -1,9 +1,13 @@
 #include"main.h"
 
 /* Cahnge this based on your Wifi info */
-const char* host = "evoke";                      // the name of the website for updationg ther firmware
-const char* ssid = "EvokeMotorcycles_4G";       // the SSID of your router
-const char* password = "EvokeEvoke";             // The password of your internet
+//const char* host = "evoke";                      // the name of the website for updationg ther firmware
+// const char* ssid = "EvokeMotorcycles_4G";       // the SSID of your router
+// const char* password = "EvokeEvoke";             // The password of your internet
+
+// Replace with your network credentials
+const char* ssid = "nicolas";
+const char* password = "Jesuisde94.";
 
 void setup() {
   Serial.begin(115200);
@@ -17,19 +21,22 @@ void setup() {
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
   delay(500);
+  // Assign each GPIO to a relay
+int GPIOs[NUM_RELAYS] = {SWITCH1, SWITCH2, SWITCH3, SWITCH4};
   pinMode(LED_RED, OUTPUT);
+// Set all relays to off when the program starts - if set to Normally Open (NO), the relay is off when you set the relay to HIGH
+  for(int i=1; i<=NUM_RELAYS; i++){
+    pinMode(GPIOs[i-1], OUTPUT);
+    if(RELAY_NO){
+      digitalWrite(GPIOs[i-1], HIGH);
+    }
+    else{
+      digitalWrite(GPIOs[i-1], LOW);
+    }
+  }
   BLE_Init();
   delay(500);
-  pinMode(SWITCH1, OUTPUT);
-  pinMode(SWITCH2, OUTPUT);
-  pinMode(SWITCH3, OUTPUT);
-  pinMode(SWITCH4, OUTPUT);
-  digitalWrite(SWITCH1, HIGH); 
-  digitalWrite(SWITCH2, HIGH); 
-  digitalWrite(SWITCH3, HIGH); 
-  digitalWrite(SWITCH4, HIGH); 
-
-  // Create BLE task pinned to core 0
+ // Create BLE task pinned to core 0
   xTaskCreatePinnedToCore(
     taskCode_BLE,          // Task function
     "BLETask",        // Task name
@@ -43,7 +50,8 @@ void setup() {
   // Create FreeRTOS tasks
 //xTaskCreatePinnedToCore(modbusTask, "ModbusTask", 3000, NULL, 1, NULL, 1);
 //xTaskCreatePinnedToCore(switchControlTask, "SwitchControlTask", 3000, NULL, 1, NULL, 1);
-xTaskCreatePinnedToCore(taskCode_Dallastemp, "taskCode_Dallastemp", 3000, NULL, 1, NULL, 0);
+xTaskCreatePinnedToCore(taskCode_Dash, "taskCode_Dash", 3000, NULL, 1, NULL, 1);
+//xTaskCreatePinnedToCore(WebServerTask, "WebServerTask", 2000, NULL, 1, NULL, 0);
 
 }
 
