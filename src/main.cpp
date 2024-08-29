@@ -1,13 +1,13 @@
 #include"main.h"
 
 /* Cahnge this based on your Wifi info */
-//const char* host = "evoke";                      // the name of the website for updationg ther firmware
-// const char* ssid = "EvokeMotorcycles_4G";       // the SSID of your router
-// const char* password = "EvokeEvoke";             // The password of your internet
+const char* host = "evoke";                      // the name of the website for updationg ther firmware
+const char* ssid = "EvokeMotorcycles_4G";       // the SSID of your router
+const char* password = "EvokeEvoke";             // The password of your internet
 
 // Replace with your network credentials
-const char* ssid = "nicolas";
-const char* password = "Jesuisde94.";
+// const char* ssid = "nicolas";
+// const char* password = "Jesuisde94.";
 
 void setup() {
   Serial.begin(115200);
@@ -37,19 +37,9 @@ int GPIOs[NUM_RELAYS] = {SWITCH1, SWITCH2, SWITCH3, SWITCH4};
   BLE_Init();
   delay(500);
  // Create BLE task pinned to core 0
-  xTaskCreatePinnedToCore(
-    taskCode_BLE,          // Task function
-    "BLETask",        // Task name
-    3000,            // Stack size
-    NULL,             // Task input parameter
-    1,                // Task priority
-    NULL,             // Task handle
-    0                 // Core where the task should run (0 = core 0)
-  );
-
+xTaskCreatePinnedToCore(taskCode_BLE, "BLETask", 3000, NULL, 2, NULL, 0);
   // Create FreeRTOS tasks
 //xTaskCreatePinnedToCore(modbusTask, "ModbusTask", 3000, NULL, 1, NULL, 1);
-//xTaskCreatePinnedToCore(switchControlTask, "SwitchControlTask", 3000, NULL, 1, NULL, 1);
 xTaskCreatePinnedToCore(taskCode_Dash, "taskCode_Dash", 3000, NULL, 1, NULL, 1);
 //xTaskCreatePinnedToCore(WebServerTask, "WebServerTask", 2000, NULL, 1, NULL, 0);
 

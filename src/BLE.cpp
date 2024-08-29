@@ -92,9 +92,7 @@ void taskCode_BLE(void *pvParameters) {
       pCharacteristic->setValue(ble.bledata);
       pCharacteristic->notify(); 
       Serial.println("ble Connected OK");
-      digitalWrite(LED_RED, HIGH);
-      vTaskDelay(500 / portTICK_PERIOD_MS);
-      digitalWrite(LED_RED, LOW);
+      digitalWrite(LED_RED, !digitalRead(LED_RED));  // toggle the LED
       vTaskDelay(500 / portTICK_PERIOD_MS);
     } else {
       vTaskDelay(1000 / portTICK_PERIOD_MS);

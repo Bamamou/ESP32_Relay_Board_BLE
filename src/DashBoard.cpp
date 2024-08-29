@@ -1,11 +1,15 @@
 #include "Dash_Board.h"
 
-
+bool ON  ;
+bool ON1 ;
+bool ON2 ;
+bool ON3 ;
+bool ON4 ;
 
 
 AsyncWebServer server(80);
 
-/* Attach ESP-DASH to AsyncWebServer */
+/* Instantiate or Attach ESP-DASH to AsyncWebServer */
 ESPDash dashboard(&server); 
 /* 
   Dashboard Cards 
@@ -15,7 +19,7 @@ Card button1(&dashboard, BUTTON_CARD, "Switch 1");
 Card button2(&dashboard, BUTTON_CARD, "Switch 2");
 Card button3(&dashboard, BUTTON_CARD, "Switch 3");
 Card button4(&dashboard, BUTTON_CARD, "Switch 4");
-
+Card status1(&dashboard, STATUS_CARD, ON==true? "Some OFF" : "All ON", "i");
 
 
 
@@ -60,12 +64,29 @@ void taskCode_Dash(void *pvParameters)
 
     while (true)
     {
+      ((digitalRead(SWITCH1))==HIGH)? ON1=false : ON1 = true;
+      ((digitalRead(SWITCH2))==HIGH)? ON2=false : ON2 = true;
+      ((digitalRead(SWITCH3))==HIGH)? ON3=false : ON3 = true;
+      ((digitalRead(SWITCH4))==HIGH)? ON4=false : ON4 = true;
  
       button1.update(bool(!(digitalRead(SWITCH1))));
       button2.update(bool(!(digitalRead(SWITCH2))));
       button3.update(bool(!(digitalRead(SWITCH3))));
       button4.update(bool(!(digitalRead(SWITCH4))));
       digitalWrite(LED_RED, !digitalRead(LED_RED));
+      // Change the message status if all relay are ON (from iddle to success)
+      if (ON1&&ON2&&ON3&&ON4)
+      {
+        ON =false;
+        status1.update("message", "s");
+      }
+      else
+      {
+        ON = true;
+        status1.update("message", "i");
+      }
+      
+      
 
       /* Send Updates to our Dashboard (realtime) */
       dashboard.sendUpdates();

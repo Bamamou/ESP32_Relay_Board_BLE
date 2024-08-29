@@ -12,13 +12,13 @@
 
 #define REGN 10 // Register address
 #define SLAVE_ID 1 // Slave ID
-#define RXTX_PIN  32 // RS485 control pin
-#define MBUS_HW_SERIAL Serial1
+#define RXTX_PIN  32 // RS485 direction control pin
+//#define MBUS_HW_SERIAL Serial1
 #define MBUS_TXD_PIN   19        
 #define MBUS_RXD_PIN   18
 
 void modbusTask(void *pvParameters);
-void switchControlTask(void *pvParameters);
+
 
 
 #endif
