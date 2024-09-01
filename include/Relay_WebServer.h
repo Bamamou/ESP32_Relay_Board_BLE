@@ -2,8 +2,8 @@
  * main.h
  * Header for the Webserver file
  *****************************************************************************/
-#ifndef __WEBSERVER_H__
-#define __WEBSERVER_H__
+#ifndef __RELAY_WEBSERVER_H__
+#define __RELAY_WEBSERVER_H__
 
 #include"global_Constants.h"
 #include<Arduino.h>

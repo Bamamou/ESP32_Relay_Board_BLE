@@ -6,15 +6,16 @@ bool ON2 ;
 bool ON3 ;
 bool ON4 ;
 
-
 AsyncWebServer server(80);
-
 /* Instantiate or Attach ESP-DASH to AsyncWebServer */
 ESPDash dashboard(&server); 
+
 /* 
   Dashboard Cards 
   Format - (Dashboard Instance, Card Type, Card Name, Card Symbol(optional) )
 */
+Card temperature_C(&dashboard, TEMPERATURE_CARD, "Temperature", "°C");
+Card temperature_F(&dashboard, TEMPERATURE_CARD, "Temperature", "°F");
 Card button1(&dashboard, BUTTON_CARD, "Switch 1");
 Card button2(&dashboard, BUTTON_CARD, "Switch 2");
 Card button3(&dashboard, BUTTON_CARD, "Switch 3");
@@ -22,12 +23,18 @@ Card button4(&dashboard, BUTTON_CARD, "Switch 4");
 Card status1(&dashboard, STATUS_CARD, ON==true? "Some OFF" : "All ON", "i");
 
 
+// Setup a oneWire instance to communicate with any OneWire devices
+OneWire oneWire(ONE_WIRE_BUS);
+// Pass our oneWire reference to Dallas Temperature sensor 
+DallasTemperature sensors(&oneWire);
 
 
 void taskCode_Dash(void *pvParameters)
 {
   /* Start AsyncWebServer */
-     server.begin();
+    server.begin();
+   
+
     /* Button card callback */
     button1.attachCallback([&](int value){
         Serial.println("Button1 Triggered: "+String((value == 1)?"true":"false"));
@@ -74,6 +81,7 @@ void taskCode_Dash(void *pvParameters)
       button3.update(bool(!(digitalRead(SWITCH3))));
       button4.update(bool(!(digitalRead(SWITCH4))));
       digitalWrite(LED_RED, !digitalRead(LED_RED));
+
       // Change the message status if all relay are ON (from iddle to success)
       if (ON1&&ON2&&ON3&&ON4)
       {
@@ -93,4 +101,27 @@ void taskCode_Dash(void *pvParameters)
       // Put the task to sleep
      vTaskDelay(500 / portTICK_PERIOD_MS);  
     }
+}
+
+/* 
+* This task handles the reading an updating of the Dallas temperature probe
+*
+ */
+
+void taskCode_Dallastemp(void *pvParameters)
+{
+   sensors.begin();
+
+   while (true) 
+   {
+     
+       // Call sensors.requestTemperatures() to issue a global temperature and Requests to all devices on the bus
+        sensors.requestTemperatures(); 
+        temperature_C.update((float)sensors.getTempCByIndex(0));
+        temperature_F.update((float)sensors.getTempFByIndex(0));
+        vTaskDelay(500 / portTICK_PERIOD_MS); 
+   }
+   
+  
+
 }

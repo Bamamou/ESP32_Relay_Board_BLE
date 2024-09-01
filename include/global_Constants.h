@@ -15,6 +15,8 @@
 
 // Set number of relays
 #define NUM_RELAYS  4
+// // Data wire is conntec to the Arduino digital pin 4
+#define ONE_WIRE_BUS 12
 
 
 

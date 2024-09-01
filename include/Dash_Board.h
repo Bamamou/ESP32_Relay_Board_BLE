@@ -14,15 +14,21 @@
   #include <ESPAsyncWebServer.h>
 #elif defined(ESP32)
   /* ESP32 Dependencies */
- // #include <WiFi.h>
+  //#include <WiFi.h>
   #include <AsyncTCP.h>
   #include <ESPAsyncWebServer.h>
 #endif
 #include <ESPDash.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
 
+// Data wire is conntec to the Arduino digital pin 4
+#define ONE_WIRE_BUS 12
 
 
 void taskCode_Dash(void *pvParameters);
+
+void taskCode_Dallastemp(void *pvParameters);
 
 
 #endif

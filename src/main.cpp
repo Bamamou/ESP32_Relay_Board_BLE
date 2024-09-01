@@ -1,13 +1,13 @@
 #include"main.h"
 
 /* Cahnge this based on your Wifi info */
-const char* host = "evoke";                      // the name of the website for updationg ther firmware
-const char* ssid = "EvokeMotorcycles_4G";       // the SSID of your router
-const char* password = "EvokeEvoke";             // The password of your internet
+// const char* host = "evoke";                      // the name of the website for updationg ther firmware
+// const char* ssid = "EvokeMotorcycles_4G";       // the SSID of your router
+// const char* password = "EvokeEvoke";             // The password of your internet
 
-// Replace with your network credentials
-// const char* ssid = "nicolas";
-// const char* password = "Jesuisde94.";
+//Replace with your network credentials
+const char* ssid = "nicolas";
+const char* password = "Jesuisde94.";
 
 void setup() {
   Serial.begin(115200);
@@ -40,7 +40,9 @@ int GPIOs[NUM_RELAYS] = {SWITCH1, SWITCH2, SWITCH3, SWITCH4};
 xTaskCreatePinnedToCore(taskCode_BLE, "BLETask", 3000, NULL, 2, NULL, 0);
   // Create FreeRTOS tasks
 //xTaskCreatePinnedToCore(modbusTask, "ModbusTask", 3000, NULL, 1, NULL, 1);
-xTaskCreatePinnedToCore(taskCode_Dash, "taskCode_Dash", 3000, NULL, 1, NULL, 1);
+xTaskCreatePinnedToCore(taskCode_Dash, "taskCode_Dash", 3000, NULL, 2, NULL, 1);
+//xTaskCreatePinnedToCore(OTA_TaskCode, "OTA_Task", 3000, NULL, 2, NULL, 1);
+xTaskCreatePinnedToCore(taskCode_Dallastemp, "taskCode_Dallastemp", 4000, NULL, 2, NULL, 1);
 //xTaskCreatePinnedToCore(WebServerTask, "WebServerTask", 2000, NULL, 1, NULL, 0);
 
 }
