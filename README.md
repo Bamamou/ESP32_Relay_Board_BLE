@@ -27,7 +27,11 @@ This task handles all the required actiona for the Dash online App management. T
 This task handles also the reading and displaying of the Dallas temperature sensor using GPIO 12 of the ESP32.
 ![Dash](https://github.com/user-attachments/assets/43b1963b-fa53-468b-8323-5bcbb7077a2c)
 
+Here, one switch is turned OFF and the state message is not ON.<br>
+
 ![Dash all](https://github.com/user-attachments/assets/d4c7a6b5-68f3-45a2-8a98-734323509db9)
+All four switches are turned On and we can the notification message at the bottom stating that all of the Switches are ON.<br>
+
 ![Dash all On](https://github.com/user-attachments/assets/f369d27d-4e22-4b01-b34e-117faf96defe)
 
 
