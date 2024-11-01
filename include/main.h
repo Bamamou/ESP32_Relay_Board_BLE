@@ -11,5 +11,6 @@
 #include"Dash_Board.h"
 #include"Relay_WebServer.h"
 #include "OTA.h"
+#include "OpenCV_task.h"
 
 #endif
