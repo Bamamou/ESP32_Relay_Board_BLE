@@ -6,6 +6,7 @@
 #define __OPENCV_TASK_H__
 
 #include<Arduino.h>
+#include"global_Constants.h"
 
 void OpenCV(void *pvParameters);
 

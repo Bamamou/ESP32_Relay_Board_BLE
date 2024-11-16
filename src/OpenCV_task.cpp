@@ -3,19 +3,13 @@
 
 void OpenCV(void *pvParameters){
     // Define the LED pins
-    const int ledPins[] = {2, 3, 4, 5, 6}; // Pins where the LEDs are connected
-    const int numLeds = 5; // Number of LEDs
+    const int SW[] = {SWITCH1, SWITCH2, SWITCH3, SWITCH4}; // Pins where the LEDs are connected
+    const int numSWs = NUM_RELAYS; // Number of LEDs
 
 
     char lastChar = '\0';  // Variable to store the last read character
-      // Initialize the LED pins as outputs
-    for (int i = 0; i < numLeds; i++) {
-        pinMode(ledPins[i], OUTPUT);
-        digitalWrite(ledPins[i], LOW); // Ensure all LEDs are off initially
-    }
     
     // Start serial communication
-    Serial.begin(115200);
     Serial.setTimeout(1);
     while (true)
     {
@@ -24,19 +18,20 @@ void OpenCV(void *pvParameters){
         if (Serial.available() > 0) {
 
             // Read the incoming data
-            int value = Serial.readString().toInt();
+            uint8_t value = Serial.readString().toInt();
             
             // Ensure the value is within the range 0-5
-            if (value >= 0 && value <= numLeds) {
-            // Turn off all LEDs first
-            for (int i = 0; i < numLeds; i++) {
-                digitalWrite(ledPins[i], LOW);
-            }
+            if (value >= 0 && value <= numSWs) 
+            {
+            // Turn ON the appropriate number of SW
+                for (uint8_t i = 0; i < numSWs; i++) {
+                    digitalWrite(SW[i], HIGH);
+                }
 
-            // Turn on the appropriate number of LEDs
-            for (int i = 0; i < value; i++) {
-                digitalWrite(ledPins[i], HIGH);
-            }
+                // Turn OFF the appropriate number of SW
+                for (uint8_t i = 0; i < value; i++) {
+                    digitalWrite(SW[i], LOW);
+                }
 
             }
         }

@@ -9,6 +9,15 @@
 const char* ssid = "nicolas";
 const char* password = "Jesuisde94.";
 
+//Replace with your network credentials
+// const char* ssid = "bamamou";
+// const char* password = "Jesuisde94.";
+
+
+// At home 
+// const char* ssid = "801";
+// const char* password = "12345678";
+
 void setup() {
   Serial.begin(115200);
   /* Connect WiFi */
@@ -40,10 +49,11 @@ int GPIOs[NUM_RELAYS] = {SWITCH1, SWITCH2, SWITCH3, SWITCH4};
 xTaskCreatePinnedToCore(taskCode_BLE, "BLETask", 3000, NULL, 2, NULL, 0);
   // Create FreeRTOS tasks
 //xTaskCreatePinnedToCore(modbusTask, "ModbusTask", 3000, NULL, 1, NULL, 1);
-xTaskCreatePinnedToCore(taskCode_Dash, "taskCode_Dash", 3000, NULL, 2, NULL, 1);
+//xTaskCreatePinnedToCore(taskCode_Dash, "taskCode_Dash", 3000, NULL, 2, NULL, 1);
 //xTaskCreatePinnedToCore(OTA_TaskCode, "OTA_Task", 3000, NULL, 2, NULL, 1);
 xTaskCreatePinnedToCore(taskCode_Dallastemp, "taskCode_Dallastemp", 4000, NULL, 2, NULL, 1);
-//xTaskCreatePinnedToCore(WebServerTask, "WebServerTask", 2000, NULL, 1, NULL, 0);
+xTaskCreatePinnedToCore(WebServerTask, "WebServerTask", 2000, NULL, 1, NULL, 0);
+//xTaskCreatePinnedToCore(OpenCV, "OpenCV", 3000, NULL, 3, NULL, 0);
 
 }
 
